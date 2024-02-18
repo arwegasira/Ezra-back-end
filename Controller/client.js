@@ -149,7 +149,7 @@ const addAccommodation = async (req, res, next) => {
   const accommodationObj = {}
   //check if required params are present
   if (!clientId || !startDate || !endDate || !roomName)
-    throw new customError.BadrequestError('Please provide room and dates ')
+    throw new customError.BadRequestError('Please provide room and dates ')
   // need to check if client exist
   const client = await Client.findOne({ _id: clientId })
   if (!client) throw new customError.NotFoundError('Client not found')
@@ -165,7 +165,7 @@ const addAccommodation = async (req, res, next) => {
   endDate = moment(endDate, 'DD/MM/YYYY').toDate()
 
   if (startDate > endDate)
-    throw new customError.BadrequestError(
+    throw new customError.BadRequestError(
       'Accomodation end date should be greater than start date.'
     )
   const nights =
@@ -207,7 +207,7 @@ const editAccommodation = async (req, res, next) => {
   if (!client) throw new customError.NotFoundError('Client not found')
   const activeAccommodation = client.activeAccommodation[0]
   if (!activeAccommodation)
-    throw new customError.BadrequestError('Add accommodation first')
+    throw new customError.BadRequestError('Add accommodation first')
   //check if it's a new room
   if (activeAccommodation.roomDetails.name !== roomName) {
     // check if new room is available
@@ -216,10 +216,10 @@ const editAccommodation = async (req, res, next) => {
       status: 'Available',
     }).select('-status -accupationEnd -accupationStart -__v')
 
-    if (!newRoom) throw new customError.BadrequestError('Room not available')
+    if (!newRoom) throw new customError.BadRequestError('Room not available')
     oldRoom = await Room.findOne({ name: activeAccommodation.roomDetails.name })
     if (!oldRoom)
-      throw new customError.BadrequestError('Something went wrong try again')
+      throw new customError.BadRequestError('Something went wrong try again')
     activeAccommodation.roomDetails = newRoom
     activeAccommodation.unitPrice = newRoom?.price
   }
@@ -228,7 +228,7 @@ const editAccommodation = async (req, res, next) => {
   endDate = endDate ? moment(endDate, 'DD/MM/YYYY').toDate() : ''
 
   if (startDate > endDate)
-    throw new customError.BadrequestError(
+    throw new customError.BadRequestError(
       'Accomodation end date should be greater than start date.'
     )
   if (

@@ -1,12 +1,12 @@
 const CustomError = require('./CustomError')
-const BadrequestError = require('./BadrequestError')
+const BadRequestError = require('./BadRequestError')
 const NotFoundError = require('./NotFoundError')
 const UnauthorizedError = require('./UnauthorizedError')
 const UnauthenticatedError = require('./UnauthenticatedError')
 
 module.exports = {
   CustomError,
-  BadrequestError,
+  BadRequestError,
   NotFoundError,
   UnauthorizedError,
   UnauthenticatedError,

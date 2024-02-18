@@ -18,7 +18,7 @@ const register = async (req, res, next) => {
   const password = `TestPassword`
   const user = new User({ firstName, lastName, email, password })
   if (!firstName || !lastName || !email)
-    throw new customError.BadrequestError(
+    throw new customError.BadRequestError(
       'User first Name, last Name and email are required.'
     )
 
@@ -45,7 +45,7 @@ const verifyAccount = async (req, res) => {
   const { email, verficationToken, newpPassword } = req.body
 
   if (!email || !verficationToken || !newpPassword)
-    throw new customError.BadrequestError('Email and password are required')
+    throw new customError.BadRequestError('Email and password are required')
 
   const user = await User.findOne({ email: email })
 
@@ -71,7 +71,7 @@ const login = async (req, res, next) => {
   res.setHeader('Access-Control-Allow-Credentials', true)
   const { email, password } = req.body
   if (!email || !password)
-    throw new customError.BadrequestError('provide email and password')
+    throw new customError.BadRequestError('provide email and password')
   const user = await User.findOne({ email: email })
 
   if (!user)
@@ -136,7 +136,7 @@ const logout = async (req, res) => {
 const forgotPassword = async (req, res) => {
   const { email } = req.body
   if (!email)
-    throw new customError.BadrequestError('Please provide a valid email')
+    throw new customError.BadRequestError('Please provide a valid email')
   const user = await User.findOne({ email: email })
 
   if (user) {
@@ -168,7 +168,7 @@ const resetPassword = async (req, res) => {
   const { token, email, password } = req.body
 
   if (!email || !token || !password)
-    throw new customError.BadrequestError('provide all details')
+    throw new customError.BadRequestError('provide all details')
 
   const user = await User.findOne({ email: email })
 
