@@ -24,7 +24,7 @@ const register = async (req, res, next) => {
 
   const verficationToken = crypto.randomBytes(40).toString('hex')
   user.verficationToken = verficationToken
-
+  console.log(verficationToken)
   await user.save()
   //send a verification email
 
@@ -38,7 +38,9 @@ const register = async (req, res, next) => {
     userName: user.lastName,
   })
 
-  res.status(StatusCodes.OK).json({ msg: 'Account Created Successfully' })
+  res
+    .status(StatusCodes.OK)
+    .json({ msg: 'Account Created Successfully', verficationToken })
 }
 
 const verifyAccount = async (req, res) => {
@@ -67,7 +69,7 @@ const verifyAccount = async (req, res) => {
 }
 
 const login = async (req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:1234')
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173')
   res.setHeader('Access-Control-Allow-Credentials', true)
   const { email, password } = req.body
   if (!email || !password)

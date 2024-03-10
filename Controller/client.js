@@ -56,7 +56,7 @@ const getClients = async (req, res, next) => {
 
   if (lastName) {
     let regex = new RegExp('^' + lastName)
-    searchObj.firstName = { $regex: regex, $options: 'i' }
+    searchObj.lastName = { $regex: regex, $options: 'i' }
   }
 
   if (phoneNumber) searchObj.phoneNumber = phoneNumber
@@ -196,7 +196,7 @@ const addAccommodation = async (req, res, next) => {
   await session.commitTransaction()
   session.endSession()
 
-  res.status(StatusCodes.OK).json({ msg: 'Accomodation added successfully' })
+  res.status(StatusCodes.OK).json({ msg: 'Accommodation added successfully' })
 }
 const editAccommodation = async (req, res, next) => {
   let { roomName, price, startDate, endDate, clientId } = req.body
