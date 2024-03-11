@@ -1,6 +1,6 @@
 const { StatusCodes } = require('http-status-codes')
 const Room = require('../Module/room')
-
+const customError = require('../Error/')
 const addRoom = async (req, res, next) => {
   const { name, roomType, price } = req.body
   const room = new Room(req.body)
@@ -62,6 +62,12 @@ const getRoom = async (req, res, next) => {
   })
 }
 
+const freeRooms = async (req, res, next) => {
+  const rooms = await Room.find({ status: 'Available' })
+  if (!rooms || !rooms.length)
+    throw new customError.NotFoundError('No free room available')
+  return res.status(StatusCodes.OK).json({ rooms })
+}
 const editRoom = async (req, res, next) => {
   const { id: roomId } = req.params
   const room = await Room.findByIdAndUpdate({ _id: roomId }, req.body, {
@@ -74,4 +80,5 @@ module.exports = {
   addRoom,
   getRoom,
   editRoom,
+  freeRooms,
 }
