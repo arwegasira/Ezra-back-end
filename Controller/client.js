@@ -81,6 +81,7 @@ const getClients = async (req, res, next) => {
     clients: clients,
     numofPages: numofPages,
     totalClients: totalClients,
+    page: page,
   })
 }
 const addService = async (req, res, next) => {
