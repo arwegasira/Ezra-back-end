@@ -68,6 +68,12 @@ const freeRooms = async (req, res, next) => {
     throw new customError.NotFoundError('No free room available')
   return res.status(StatusCodes.OK).json({ rooms })
 }
+const roomPrice = async (req, res) => {
+  const { name } = req.params
+  const room = await Room.find({ name: name })
+  if (!room) throw customError.NotFoundError('Room not found')
+  res.status(StatusCodes.OK).json({ price: room[0].price })
+}
 const editRoom = async (req, res, next) => {
   const { id: roomId } = req.params
   const room = await Room.findByIdAndUpdate({ _id: roomId }, req.body, {
@@ -81,4 +87,5 @@ module.exports = {
   getRoom,
   editRoom,
   freeRooms,
+  roomPrice,
 }
