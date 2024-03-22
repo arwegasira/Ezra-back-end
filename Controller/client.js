@@ -282,6 +282,32 @@ const editAccommodation = async (req, res, next) => {
 
   res.status(StatusCodes.OK).json({ msg: 'success' })
 }
+const availRoom = async (req, res, next) => {
+  const { id: clientId } = req.params
+  //find client
+  const client = await Client.findOne({ _id: clientId })
+  if (!client) throw customError.NotFoundError('Client not found')
+  //get active accommodation
+  const activeAccommodation = client.activeAccommodation[0]
+  if (!activeAccommodation)
+    throw customError.NotFoundError('No active accommodation found')
+  const roomId = activeAccommodation?.roomDetails?._id
+  //change room status to available
+  const room = await Room.findOne({ _id: roomId })
+  room.status = 'available'
+  room.accupationStart = null
+  room.accupationEnd = null
+  //move active accommodation to unpaid array
+  client.unpaidAccommodation.push(activeAccommodation)
+  client.activeAccommodation = []
+  const session = await mongoose.startSession()
+  session.startTransaction()
+  await client.save()
+  await room.save()
+  session.commitTransaction()
+  session.endSession()
+  res.status(StatusCodes.OK).json({ client, room })
+}
 module.exports = {
   createClient,
   getActiveClients,
@@ -294,4 +320,5 @@ module.exports = {
   editAccommodation,
   getClientById,
   editClientById,
+  availRoom,
 }

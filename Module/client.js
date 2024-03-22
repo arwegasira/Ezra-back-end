@@ -53,6 +53,9 @@ const clientShema = new Schema(
     activeAccommodation: {
       type: Array,
     },
+    unpaidAccommodation: {
+      type: Array,
+    },
     //address
     city: {
       type: String,

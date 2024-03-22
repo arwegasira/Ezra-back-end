@@ -13,6 +13,7 @@ const {
   editAccommodation,
   getClientById,
   editClientById,
+  availRoom,
 } = require('../Controller/client')
 
 router.post('/addclient', createClient)
@@ -26,5 +27,6 @@ router.post('/editservice', editService)
 router.get('/clients', getClients)
 router.get('/getclientbyid/:id', getClientById)
 router.patch('/editclient/:id', editClientById)
+router.patch('/availRoom/:id', availRoom)
 
 module.exports = router
