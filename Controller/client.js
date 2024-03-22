@@ -126,8 +126,10 @@ const editService = async (req, res, next) => {
   )[0]
 
   if (!targetService) throw new customError.NotFoundError('Service not found')
-
-  newServiceObj.service = serviceName || targetService.service
+  newServiceObj.service =
+    serviceName.length > 0 && serviceName !== targetService.service
+      ? serviceName
+      : targetService.service
   newServiceObj.total = price || targetService.total
   newServiceObj.serviceId = targetService.serviceId
   //update and save client
