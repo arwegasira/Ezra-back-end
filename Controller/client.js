@@ -294,7 +294,7 @@ const availRoom = async (req, res, next) => {
   const roomId = activeAccommodation?.roomDetails?._id
   //change room status to available
   const room = await Room.findOne({ _id: roomId })
-  room.status = 'available'
+  room.status = 'Available'
   room.accupationStart = null
   room.accupationEnd = null
   //move active accommodation to unpaid array
