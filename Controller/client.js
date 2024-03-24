@@ -2,6 +2,7 @@ const Client = require('../Module/client')
 const { StatusCodes } = require('http-status-codes')
 const customError = require('../Error/')
 const Room = require('../Module/room')
+const ClientHistory = require('../Module/clientHistory')
 const moment = require('moment')
 const mongoose = require('mongoose')
 
@@ -307,6 +308,9 @@ const availRoom = async (req, res, next) => {
   session.commitTransaction()
   session.endSession()
   res.status(StatusCodes.OK).json({ client, room })
+}
+const checkout = async () => {
+  res.status(StatusCodes.OK).json({})
 }
 module.exports = {
   createClient,
